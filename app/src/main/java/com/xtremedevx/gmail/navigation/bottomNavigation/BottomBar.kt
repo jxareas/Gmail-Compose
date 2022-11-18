@@ -1,12 +1,13 @@
 package com.xtremedevx.gmail.navigation.bottomNavigation
 
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -24,10 +25,17 @@ fun BottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation {
+    Row(
+        modifier = Modifier
+            .height(56.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
 
+        ) {
         screens.forEach { screen ->
             AddItem(
+
                 screen = screen,
                 navController = navController,
                 currentDestination = currentDestination,
@@ -46,7 +54,7 @@ fun RowScope.AddItem(
         it.route == screen.route
     } == true
 
-    BottomNavigationItem(
+    NavigationItem(
         label = {
             Text(text = screen.title)
         },
@@ -57,29 +65,11 @@ fun RowScope.AddItem(
                 contentDescription = null
             )
         },
-        onClick = {
+        onClickEvent = {
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
         },
-
-
-        )
-
+    )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
